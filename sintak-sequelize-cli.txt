@@ -1,0 +1,70 @@
+# Sequelize
+
+- npx sequelize-cli init --> For initialization first to make some folder for ORM Database
+
+## Migration
+
+- Make file migration or file design table to database
+  ~ npx sequelize-cli model:generate --name Tablename --attributes fieldnameOne:string,fieldId:integer,inputDate:dateonly
+- Make migrating table from folder migration to database
+  ~ npx sequelize-cli db:migrate
+
+## Seeder
+
+- Make seder  
+  ~ npx sequelize-cli seed:generate --name NamaSeeder
+- running seeder
+  ~ npx sequelize-cli db:seed:all
+- running seeder spesific
+  ~ npx sequelize-cli db:seed --seed name-of-seed-as-in-data
+- undo seder
+  ~ npx sequelize-cli db:seed:undo
+- undo seeder spesific
+  ~ npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data
+
+## Penjelasan Relation DB menggunakan sequelize
+
+- One-To-One --> setting di file didalam folder model :
+  ~ di ModelTablePertama --> "TablePertama.hashOne(TableKedua)"
+  ~ di ModelTbKedua --> "TableKedua.TableKedua(TablePertama)"
+  Berikut contoh penggunaan-nya:
+  // Option 1
+  Foo.hasOne(Bar, {
+  foreignKey: 'myFooId'
+  });
+  Bar.belongsTo(Foo);
+
+  // Option 2
+  Foo.hasOne(Bar, {
+  foreignKey: {
+  name: 'myFooId'
+  }
+  });
+  Bar.belongsTo(Foo);
+
+  // Option 3
+  Foo.hasOne(Bar);
+  Bar.belongsTo(Foo, {
+  foreignKey: 'myFooId'
+  });
+
+  // Option 4
+  Foo.hasOne(Bar);
+  Bar.belongsTo(Foo, {
+  foreignKey: {
+  name: 'myFooId'
+  }
+  });
+
+- One-To-Many --> setting di file didalam folder model :
+  ~ di ModelTbPertama --> "TablePertama.hasMany(TableKedua)"
+  ~ di ModelTbKedua --> "TableKedua.belongsTo(TablePertama)"
+  Berikut contoh penggunaan-nya:
+  Team.hasMany(Player, {
+  foreignKey: 'clubId'
+  });
+  Player.belongsTo(Team);
+
+- Many-To-Many --> setting di file didalam folder model :
+  ~ di ModelTbPertama --> "TablePertama.belongsToMany(TableKedua, { through: 'FieldForeignKey' })"
+  ~ di ModelTbKedua --> "TableKedua.belongsToMany(TablePertama, { through: 'FieldForeignKey' })"
